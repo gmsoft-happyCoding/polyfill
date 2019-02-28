@@ -43,12 +43,80 @@ export default [
     ]
   },
 
+  // iife Development
+  {
+    input: "src/index.js",
+    output: {
+      file: "dist/polyfill.iife.js",
+      format: "iife",
+      name: "polyfill",
+      indent: false,
+      sourcemap: true,
+      globals
+    },
+    external: Object.getOwnPropertyNames(globals),
+    plugins: [
+      nodeResolve({
+        jsnext: true,
+        main: true
+      }),
+      commonjs(),
+      babel({
+        runtimeHelpers: true,
+        exclude: "node_modules/**"
+      }),
+      replace({
+        "process.env.NODE_ENV": JSON.stringify("development"),
+        "asap/raw": "asap/browser-raw"
+      }),
+      filesize()
+    ]
+  },
+
   // UMD Production
   {
     input: "src/index.js",
     output: {
       file: "dist/polyfill.min.js",
       format: "umd",
+      name: "polyfill",
+      indent: false,
+      sourcemap: true,
+      globals
+    },
+    external: Object.getOwnPropertyNames(globals),
+    plugins: [
+      nodeResolve({
+        jsnext: true,
+        main: true
+      }),
+      commonjs(),
+      babel({
+        exclude: "node_modules/**",
+        runtimeHelpers: true
+      }),
+      replace({
+        "process.env.NODE_ENV": JSON.stringify("production"),
+        "asap/raw": "asap/browser-raw"
+      }),
+      terser({
+        compress: {
+          pure_getters: true,
+          unsafe: true,
+          unsafe_comps: true,
+          warnings: false
+        }
+      }),
+      filesize()
+    ]
+  },
+
+  // iife Production
+  {
+    input: "src/index.js",
+    output: {
+      file: "dist/polyfill.iife.min.js",
+      format: "iife",
       name: "polyfill",
       indent: false,
       sourcemap: true,

@@ -1,13 +1,14 @@
-(function (global, factory) {
-typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-typeof define === 'function' && define.amd ? define(factory) :
-(global.polyfill = factory());
-}(this, (function () { 'use strict';
+var polyfill = (function () {
+'use strict';
 
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+function getCjsExportFromNamespace (n) {
+	return n && n.default || n;
 }
 
 // Use the fastest means possible to execute a task in its own turn, with
@@ -1167,6 +1168,14 @@ if (!self.fetch) {
   self.Request = Request;
   self.Response = Response;
 }
+
+var fetch$1 = /*#__PURE__*/Object.freeze({
+Headers: Headers,
+Request: Request,
+Response: Response,
+get DOMException () { return DOMException; },
+fetch: fetch
+});
 
 /*
 object-assign
@@ -3056,6 +3065,8 @@ _export(_export.S, 'Object', {
 
 var values = _core.Object.values;
 
+getCjsExportFromNamespace(fetch$1);
+
 if (typeof Promise === "undefined") {
   // Rejection tracking prevents a common issue where React gets into an
   // inconsistent state due to an error, but it gets swallowed by a Promise,
@@ -3077,5 +3088,5 @@ var src = {};
 
 return src;
 
-})));
-//# sourceMappingURL=polyfill.js.map
+}());
+//# sourceMappingURL=polyfill.iife.js.map
