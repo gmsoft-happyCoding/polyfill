@@ -545,6 +545,18 @@ var rejectionTracking = {
 	enable: enable_1
 };
 
+core.prototype.finally = function (f) {
+  return this.then(function (value) {
+    return core.resolve(f()).then(function () {
+      return value;
+    });
+  }, function (err) {
+    return core.resolve(f()).then(function () {
+      throw err;
+    });
+  });
+};
+
 //This file contains the ES6 extensions to the core Promises/A+ API
 
 
@@ -2166,7 +2178,7 @@ var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORC
       // Set @@toStringTag to native iterators
       _setToStringTag(IteratorPrototype, TAG, true);
       // fix for some old engines
-      if (!_library && typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
+      if (typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
     }
   }
   // fix Array#{values, @@iterator}.name in V8 / FF
@@ -2175,7 +2187,7 @@ var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORC
     $default = function values() { return $native.call(this); };
   }
   // Define iterator
-  if ((!_library || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
+  if (BUGGY || VALUES_BUG || !proto[ITERATOR]) {
     _hide(proto, ITERATOR, $default);
   }
   // Plug for library
