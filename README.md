@@ -4,4 +4,4 @@
 
 ### build dist
 
-yarn buld
+yarn build
