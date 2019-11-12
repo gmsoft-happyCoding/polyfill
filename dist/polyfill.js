@@ -2178,7 +2178,7 @@ var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORC
       // Set @@toStringTag to native iterators
       _setToStringTag(IteratorPrototype, TAG, true);
       // fix for some old engines
-      if (typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
+      if (!_library && typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
     }
   }
   // fix Array#{values, @@iterator}.name in V8 / FF
@@ -2187,7 +2187,7 @@ var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORC
     $default = function values() { return $native.call(this); };
   }
   // Define iterator
-  if (BUGGY || VALUES_BUG || !proto[ITERATOR]) {
+  if ((!_library || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
     _hide(proto, ITERATOR, $default);
   }
   // Plug for library
@@ -3067,6 +3067,18 @@ _export(_export.S, 'Object', {
 });
 
 var values = _core.Object.values;
+
+// 20.1.2.4 Number.isNaN(number)
+
+
+_export(_export.S, 'Number', {
+  isNaN: function isNaN(number) {
+    // eslint-disable-next-line no-self-compare
+    return number != number;
+  }
+});
+
+var isNan = _core.Number.isNaN;
 
 if (typeof Promise === "undefined" || typeof Promise.prototype.finally === "undefined") {
   // Rejection tracking prevents a common issue where React gets into an

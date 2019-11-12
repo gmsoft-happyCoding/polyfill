@@ -76,3 +76,7 @@ if (!String.prototype.includes) {
 if (!Object.prototype.values) {
   require("core-js/fn/object/values");
 }
+
+if (!Number.isNaN) {
+  require("core-js/fn/number/is-nan");
+}
