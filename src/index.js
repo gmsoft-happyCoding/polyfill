@@ -44,6 +44,10 @@ if (!String.prototype.startsWith) {
   require("core-js/fn/string/starts-with");
 }
 
+if (!String.prototype.endsWith) {
+  require("core-js/fn/string/ends-with");
+}
+
 // redux-actions needs
 if (!String.prototype.includes) {
   require("core-js/fn/string/includes");

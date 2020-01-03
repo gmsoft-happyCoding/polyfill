@@ -2906,6 +2906,24 @@ _export(_export.P + _export.F * _failsIsRegexp(STARTS_WITH), 'String', {
 
 var startsWith = _core.String.startsWith;
 
+var ENDS_WITH = 'endsWith';
+var $endsWith = ''[ENDS_WITH];
+
+_export(_export.P + _export.F * _failsIsRegexp(ENDS_WITH), 'String', {
+  endsWith: function endsWith(searchString /* , endPosition = @length */) {
+    var that = _stringContext(this, searchString, ENDS_WITH);
+    var endPosition = arguments.length > 1 ? arguments[1] : undefined;
+    var len = _toLength(that.length);
+    var end = endPosition === undefined ? len : Math.min(_toLength(endPosition), len);
+    var search = String(searchString);
+    return $endsWith
+      ? $endsWith.call(that, search, end)
+      : that.slice(end - search.length, end) === search;
+  }
+});
+
+var endsWith = _core.String.endsWith;
+
 var INCLUDES = 'includes';
 
 _export(_export.P + _export.F * _failsIsRegexp(INCLUDES), 'String', {
