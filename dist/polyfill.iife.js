@@ -2187,7 +2187,7 @@ var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORC
       // Set @@toStringTag to native iterators
       _setToStringTag(IteratorPrototype, TAG, true);
       // fix for some old engines
-      if (!_library && typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
+      if (typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
     }
   }
   // fix Array#{values, @@iterator}.name in V8 / FF
@@ -2196,7 +2196,7 @@ var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORC
     $default = function values() { return $native.call(this); };
   }
   // Define iterator
-  if ((!_library || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
+  if (BUGGY || VALUES_BUG || !proto[ITERATOR]) {
     _hide(proto, ITERATOR, $default);
   }
   // Plug for library
@@ -3088,6 +3088,20 @@ _export(_export.S, 'Number', {
 });
 
 var isNan = _core.Number.isNaN;
+
+// 20.1.2.3 Number.isInteger(number)
+
+var floor$1 = Math.floor;
+var _isInteger = function isInteger(it) {
+  return !_isObject(it) && isFinite(it) && floor$1(it) === it;
+};
+
+// 20.1.2.3 Number.isInteger(number)
+
+
+_export(_export.S, 'Number', { isInteger: _isInteger });
+
+var isInteger = _core.Number.isInteger;
 
 getCjsExportFromNamespace(fetch$1);
 

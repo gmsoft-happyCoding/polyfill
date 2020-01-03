@@ -80,3 +80,7 @@ if (!Object.prototype.values) {
 if (!Number.isNaN) {
   require("core-js/fn/number/is-nan");
 }
+
+if (!Number.isInteger) {
+  require("core-js/fn/number/is-integer");
+}
