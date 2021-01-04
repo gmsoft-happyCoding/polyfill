@@ -88,3 +88,7 @@ if (!Number.isNaN) {
 if (!Number.isInteger) {
   require("core-js/fn/number/is-integer");
 }
+
+if (!Object.entries) {
+  require("core-js/fn/object/entries");
+}

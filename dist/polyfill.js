@@ -3112,6 +3112,18 @@ _export(_export.S, 'Number', { isInteger: _isInteger });
 
 var isInteger = _core.Number.isInteger;
 
+// https://github.com/tc39/proposal-object-values-entries
+
+var $entries = _objectToArray(true);
+
+_export(_export.S, 'Object', {
+  entries: function entries(it) {
+    return $entries(it);
+  }
+});
+
+var entries = _core.Object.entries;
+
 if (typeof Promise === "undefined" || typeof Promise.prototype.finally === "undefined") {
   // Rejection tracking prevents a common issue where React gets into an
   // inconsistent state due to an error, but it gets swallowed by a Promise,
