@@ -3135,22 +3135,9 @@ if (typeof Promise === "undefined" || typeof Promise.prototype.finally === "unde
 // It will use the native implementation if it's present and isn't buggy.
 
 
-Object.assign = objectAssign;
-/**
- * fix: https://github.com/facebook/react/issues/8379
- * see: https://github.com/zloirock/core-js/tree/v2
- * Caveats when using Symbol polyfill:
- *   Symbol.for and Symbol.keyFor can't be shimmed cross-realm.
- */
-
-try {
-  if (top !== self && top.Symbol && top.Symbol.for && top.Symbol.for("bar") !== window.Symbol.for("bar")) {
-    window.Symbol = top.Symbol;
-  }
-} catch (e) {} // nothing
+Object.assign = objectAssign; // Support for...of (a commonly used syntax feature that requires Symbols)
 // Support iterable spread (...Set, ...Map)
 // React 16+ relies on Map, Set, and requestAnimationFrame
-
 
 raf_1.polyfill(window); // antd needs
 
